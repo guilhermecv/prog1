@@ -10,8 +10,9 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <locale.h>
+#include <math.h>
 
-#define PI 3.1415
+#define PI 3.141592654
 
 int main()
 {
@@ -68,7 +69,7 @@ int main()
                     break;
 
                 case 'c': // Apresenta o valor da impedancia equivalente
-                    printf("\n A impedância equivalente Zeq = %g + j%g Ohms\n Pressione qualquer tecla para prosseguir . . .", (R1+R2), (X1+X2));
+                    printf("\n A impedância equivalente Zeq = %g + %gi Ohms\n Pressione qualquer tecla para prosseguir . . .", (R1+R2), (X1+X2));
                     getch(); // Aguarda alguma tecla ser pressionada para sair
                     break;
 
@@ -129,7 +130,7 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor correto para a capacitância.\nC=");
                     }
-                    printf("\nReatância capacitiva\n\t Xl=-j%g \nPressione qualquer tecla para prosseguir . . .", 1/(2*PI*freq*C));
+                    printf("\nReatância capacitiva\n\t Xl= %.6fi \nPressione qualquer tecla para prosseguir . . .", 1/(2*PI*freq*C));
                     getch(); // Aguarda alguma tecla ser pressionada para sair
                     break;   // Fim do cálculo da reatância capacitiva
 
@@ -147,7 +148,7 @@ int main()
                         fflush(stdin);
                         printf("Informe um valor correto para a indutância.\nL=");
                     }
-                    printf("Reatância Indutiva\n\tXl=j%g Ohms \n Pressione qualquer tecla para prosseguir . . .", (2*PI*freq*L));
+                    printf("Reatância Indutiva\n\tXl=%.3fi Ohms \n Pressione qualquer tecla para prosseguir . . .", (2*PI*freq*L));
                     getch();
                     break; // Fim do cálculo da reatância indutiva
                 }
