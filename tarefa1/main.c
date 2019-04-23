@@ -6,9 +6,14 @@
  *
  *  Obs: Este programa é compilado somente no Windows
  */
+#ifdef linux
+#include <stdio_ext.h>
+#elif defined WIN32
 #include <stdio.h>
+#endif
 #include <stdlib.h>
-#include <conio.h>
+//#include <conio.h>
+#include <curses.h>
 #include <locale.h>
 #include <math.h>
 
@@ -22,12 +27,33 @@ int main()
 
     //Variáveis utilizadas para a opção 'c' (cálculo de reatâncias)
     float C, L, freq;
+    #ifdef linux
+    printf("\nSistema UNIX");
+    system("sleep 2");
+    #elif defined WIN32 
+    printf("\nSistema Windows");
+    system("sleep 2");
+    #else
+    printf("Sistema não detectado\nO programa será encerrado");
+    system("sleep 2");
+    return 0;
+    #endif
 
     while(user_selection != 's')
     {
+#ifdef linux
+        system("clear");
+#elif defined WIN32
         system("cls");
+#endif
         printf("     MENU PRINCIPAL\nDigite:\n<a> Associação de impedâncias em Série\n<b> Associação de impedâncias em Paralelo\n<c> Cálculo de reatâncias\n<d> Conversor de impedâncias P->R e R->P\n<e> Divisor de tensão\n<f> Divisor de corrente\n<s> Sair\n");
-        user_selection = getch();
+#ifdef linux
+        __fpurge(stdin);
+        user_selection = getchar();
+#elif defined WIN32
+        fflush(stdin);
+        user_selection = getch
+#endif
         switch (user_selection)
         {
         case 'a':   // Submenu Associação de impedâncias em série
@@ -35,6 +61,7 @@ int main()
             {
                 system("cls");
                 printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM SÉRIE\nDigite:\n<a> Entre com o valor da impedância 1 (forma retangular)\n<b> Entre com o valor da impedância 2 (forma retangular)\n<c> Apresentar impedância equivalente\n<r> Retornar ao menu principal\n");
+                __fpurge(stdin);
                 user_sub_selection = getch();
                 switch (user_sub_selection)
                 {
@@ -43,7 +70,8 @@ int main()
                     while(scanf("%f", &R1) != 1) // Armazena a parte real da impedancia
                     {
                         printf("\nInforme um valor válido!");
-                        fflush(stdin);
+                       __fpurge(stdin);
+                       //fflush(stdin);
                     }
                     printf("Digite o valor de X e confirme com a tecla Enter: ");
                     while(scanf("%f", &X1) != 1) // Armazena a parte imaginária da impedância
