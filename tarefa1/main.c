@@ -21,7 +21,7 @@ int main()
     float R1, R2, X1, X2; // Armazena parte real e imaginária das impedâncias
 
     //Variáveis utilizadas para a opção 'c' (cálculo de reatâncias)
-    float Xl, Xc, C, L, freq;
+    float C, L, freq;
 
     while(user_selection != 's')
     {
@@ -69,8 +69,8 @@ int main()
                     break;
 
                 case 'c': // Apresenta o valor da impedancia equivalente
-                    printf("\n A impedância equivalente Zeq = %g + %gi Ohms\n Pressione qualquer tecla para prosseguir . . .", (R1+R2), (X1+X2));
-                    getch(); // Aguarda alguma tecla ser pressionada para sair
+                    printf("\n A impedância equivalente Zeq = %g + %gi Ohms\n", (R1+R2), (X1+X2));
+                    system("pause");
                     break;
 
                 }
@@ -130,8 +130,8 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor correto para a capacitância.\nC=");
                     }
-                    printf("\nReatância capacitiva\n\t Xl= %.6fi \nPressione qualquer tecla para prosseguir . . .", 1/(2*PI*freq*C));
-                    getch(); // Aguarda alguma tecla ser pressionada para sair
+                    printf("\nReatância capacitiva\n\t Xl= %.6fi \n", 1/(2*PI*freq*C));
+                    system("pause");
                     break;   // Fim do cálculo da reatância capacitiva
 
                 case 'b':   // Cálculo da reatência indutiva
@@ -148,8 +148,8 @@ int main()
                         fflush(stdin);
                         printf("Informe um valor correto para a indutância.\nL=");
                     }
-                    printf("Reatância Indutiva\n\tXl=%.3fi Ohms \n Pressione qualquer tecla para prosseguir . . .", (2*PI*freq*L));
-                    getch();
+                    printf("Reatância Indutiva\n\tXl=%.3fi Ohms \n", (2*PI*freq*L));
+                    system("pause");
                     break; // Fim do cálculo da reatância indutiva
                 }
             }
@@ -170,8 +170,8 @@ int main()
         default:
             if(user_selection != 's')
             {
-                printf("Opção inválida, tente novamente.");
-                system("sleep 1");  // Aguarda 1 segundo antes de sair
+                printf("Opção inválida, tente novamente.\n");
+                system("pause");  // Aguarda 1 segundo antes de sair
             }
             break;
         }   // Fim dos submenus
