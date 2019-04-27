@@ -14,8 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define PI 3.141592654
-
 int main()
 {
     setlocale(LC_CTYPE, "portuguese");
@@ -76,15 +74,15 @@ int main()
                     printf("\n A impedância equivalente Zeq = %g + %gi Ohms\n", (R1+R2), (X1+X2));
                     system("pause");
                     break;
-                        
+
                 default:
                     if(user_sub_selection != 'R')
                     {
-                         printf("Opção inválida.");
-                         system("sleep 1");
+                        printf("Opção inválida.");
+                        system("TIMEOUT /T 1 /NOBREAK > NUL");
                     }
                     break;
-                        
+
                 }
             }
             while (user_sub_selection != 'R');
@@ -100,7 +98,7 @@ int main()
                 switch (user_sub_selection)
                 {
                 case 'A': // Solicita o valor da impedância 1
-                    
+
                     break;
 
                 case 'B': // Solicita o valor da impedância 2
@@ -110,17 +108,17 @@ int main()
                 case 'C': // Apresenta o resultado equivalente
 
                     break;
-                
+
                 default:
                     if(user_sub_selection != 'R')
                     {
                         printf("Opção Inválida.");
-                        system("sleep 1");
+                        system("TIMEOUT /T 1 /NOBREAK > NUL");
                     }
                     break;
                 }
             }
-            while(user_sub_selection != 'R');  // Se o usuário digitar 'r', volta ao menu principal
+            while(user_sub_selection != 'R'); // Se o usuário digitar 'R', volta ao menu principal
             break;  // Fim do submenu de impedância em paralelo
 
         case 'C':   // Início do submenu de cálculo de reatâncias
@@ -146,7 +144,7 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor correto para a capacitância.\nC=");
                     }
-                    printf("\nReatância capacitiva\n\t Xl= %.6fi \n", 1/(2*PI*freq*C));
+                    printf("\nReatância capacitiva\n\t Xl= %.6fi \n", 1/(2*M_PI*freq*C));
                     system("pause");
                     break;   // Fim do cálculo da reatância capacitiva
 
@@ -164,31 +162,31 @@ int main()
                         fflush(stdin);
                         printf("Informe um valor correto para a indutância.\nL=");
                     }
-                    printf("Reatância Indutiva\n\tXl=%.3fi Ohms \n", (2*PI*freq*L));
+                    printf("Reatância Indutiva\n\tXl=%.3fi Ohms \n", (2*M_PI*freq*L));
                     system("pause");
                     break; // Fim do cálculo da reatância indutiva
-                        
-                    default:
-                        if(user_sub_selection != 'R')
-                        {
-                            printf("Opção inválida");
-                            system("sleep 1");
-                        }
-                        break;
+
+                default:
+                    if(user_sub_selection != 'R')
+                    {
+                        printf("Opção inválida");
+                        system("TIMEOUT /T 1 /NOBREAK > NUL");
+                    }
+                    break;
                 }
             }
-            while(user_sub_selection != 'R');  // Se o usuário digitar 'r' volta ao menu principal
+            while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
             break;  // Fim do submenu de cálculo de reatâncias
 
-            case 'D': // Conversão de Impedâncias
-                do
-                {
-                    system("cls");
-                    printf("CONVERSÃO DE IMPEDÂNCIAS\nDigite:\n<a> Conversão polar -> retangular\n<b> Conversão retangular -> polar\n<r> Para retornar ao menu principal."); 
-                    user_sub_selection = toupper(getch());
-                }
-                while(user_sub_selection != 'R');
-                break; // Fim do submenu de conversão de impedâncias
+        case 'D': // Conversão de Impedâncias
+            do
+            {
+                system("cls");
+                printf("CONVERSÃO DE IMPEDÂNCIAS\nDigite:\n<a> Conversão polar -> retangular\n<b> Conversão retangular -> polar\n<r> Para retornar ao menu principal.");
+                user_sub_selection = toupper(getch());
+            }
+            while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
+            break; // Fim do submenu de conversão de impedâncias
         case 'E':   // Divisor de Tensão
             do
             {
@@ -197,17 +195,38 @@ int main()
                 user_sub_selection = toupper(getch());
 
             }
-            while(user_sub_selection != 'R');
-            break;  // Fim do divisor de tensão
+            while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
+            break;  // Fim do submenu de divisor de tensão
+
+        case 'F':   // Divisor de corrente
+            do
+            {
+                system("cls");
+                printf("DIVISOR DE CORRENTE\nDigite\n <r> Para retornar ao menu principal");
+                user_sub_selection = toupper(getch());
+                switch (user_sub_selection)
+                {
+                default:
+                    if(user_sub_selection != 'R')
+                    {
+                        printf("Opção Inválida.");
+                        system("TIMEOUT /T 1 /NOBREAK > NUL");
+                    }
+                    break;
+                }
+            }
+            while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
+            break;  // Fim do submenu de divisro de corrente
 
         default:
             if(user_selection != 'S')
             {
                 printf("Opção inválida, tente novamente.\n");
-                system("sleep 1");  // Aguarda 1 segundo antes de sair
+                system("TIMEOUT /T 1 /NOBREAK > NUL");  // Aguarda 1 segundo antes de retornar. Paramêtro 'NUL' é utilizado para não exibir a contagem na tela
             }
             break;
         }   // Fim dos submenus
     }   // Fim do menu principal
+
     return 0;
 }

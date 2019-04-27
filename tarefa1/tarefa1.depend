@@ -1,8 +1,10 @@
 # depslib dependency file v1.0
-1555977438 source:d:\arquivos_pc\documentos\projetos\git\prog1\tarefa1\main.c
-	<stdio.h>
-	<stdlib.h>
+1556375692 source:d:\arquivos_pc\documentos\projetos\git\prog1\tarefa1\main.c
+	<complex.h>
 	<conio.h>
+	<ctype.h>
 	<locale.h>
 	<math.h>
+	<stdio.h>
+	<stdlib.h>
 
