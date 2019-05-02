@@ -1,10 +1,9 @@
 /**
- * @brief Calculadora básica de corrente alternada
+ * @brief  Calculadora básica de corrente alternada
  *
  * @author Guilherme Camargo Valese
- *
+ * @date   02/05/2019
  */
-
 #include <complex.h>
 #include <conio.h>
 #include <ctype.h>
@@ -13,23 +12,20 @@
 #include <stdio.h>
 #include <windows.h>    // Utilizada para 'Sleep()'
 
-/** CORRIGIR AS VARIÁVEIS (NÃO UTILIZAR STRUCT!!!) */
-
-#define PI 3.14159265   // Talvez utilizar M_PI definido em 'math.h'
+#define PI 3.14159265
 
 int main()
 {
     setlocale(LC_CTYPE, "portuguese");
     char user_selection, user_sub_selection;                    // Variáveis de controle do menu e submenu
-
     float C, L, freq;                                           // Variáveis utilizadas para a opção 'c' (cálculo de reatâncias)
-    float z_mod_temp, z_ang_temp, z_real_temp, z_imag_temp;     // Variáveis temporárias
-    double complex z1,z2;                                       // Armazena as impedâncias Z1 e Z2 na forma complexa
+    float mod_temp, ang_temp, real_temp, imag_temp;             // Variáveis temporárias
+    double complex z1,z2,v,i,VZ1,VZ2,iZ1,iZ2;
 
     while(1)
     {
         system("cls");
-        printf("     MENU PRINCIPAL\nDigite:\n<a>Associação de impedâncias em Série\n<b> Associação de impedâncias em Paralelo\n<c> Cálculo de reatâncias\n<d> Conversor de impedâncias P->R e R->P\n<e> Divisor de tensão\n<f> Divisor de corrente\n<s> Sair\n");
+        printf("     MENU PRINCIPAL\nDigite:\n<a> Associação de impedâncias em Série\n<b> Associação de impedâncias em Paralelo\n<c> Cálculo de reatâncias\n<d> Conversor de impedâncias P->R e R->P\n<e> Divisor de tensão\n<f> Divisor de corrente\n<s> Sair\n");
         fflush(stdin);
         user_selection = toupper(getch());  // passa para letra maiúscula o que for digitado
         switch (user_selection)
@@ -45,34 +41,34 @@ int main()
                 {
                 case 'A': // Solicita o valor da impedancia 1
                     printf("\nInforme o valor da impedância 1 (forma retangular Z=R+jX)\nDigite o valor de R e confirme com a tecla Enter: ");
-                    while(scanf("%f", &z_real_temp) != 1) // Armazena a parte real da impedancia
+                    while(scanf("%f", &real_temp) != 1) // Armazena a parte real da impedancia
                     {
                         printf("\nInforme um valor válido!\nR: ");
                         fflush(stdin);
                     }
                     printf("Digite o valor de X e confirme com a tecla Enter: ");
-                    while(scanf("%f", &z_imag_temp) != 1) // Armazena a parte imaginária da impedância
+                    while(scanf("%f", &imag_temp) != 1) // Armazena a parte imaginária da impedância
                     {
                         printf("\nInforme um valor válido!\nX: ");
                         fflush(stdin);
                     }
-                    z1 = z_real_temp + z_imag_temp * I;
+                    z1 = real_temp + imag_temp * I;
                     break;
 
                 case 'B': // Solicita o valor da impedancia 2
                     printf("\nInforme o valor da impedância 2 (forma retangular Z=R+jX)\nDigite o valor de R e confirme com a tecla Enter: ");
-                    while(scanf("%f", &z_real_temp) != 1)
+                    while(scanf("%f", &real_temp) != 1)
                     {
                         printf("\nInforme um valor válido!\nR: ");
                         fflush(stdin);
                     }
                     printf("Digite o valor de X e confirme com a tecla Enter: ");
-                    while(scanf("%f", &z_imag_temp) != 1) // Armazena a parte imaginária da impedância
+                    while(scanf("%f", &imag_temp) != 1) // Armazena a parte imaginária da impedância
                     {
                         printf("\nInforme um valor válido!\nX: ");
                         fflush(stdin);
                     }
-                    z2 = z_real_temp + z_imag_temp * I;
+                    z2 = real_temp + imag_temp * I;
                     break;
 
                 case 'C': // Apresenta o valor da impedancia equivalente
@@ -90,64 +86,54 @@ int main()
                         Sleep(1000);
                     }
                     break;
-
                 }
             }
             while (user_sub_selection != 'R');
             break;  /** Fim do submenu de impedância série */
 
-        case 'B':   /** Impedâncias em paralelo (FINALIZAR !!!) */
+        case 'B':   /** Impedâncias em paralelo */
             do
             {
                 fflush(stdin);
                 system("cls");
-                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM PARALELO\nDigite:\n<a> Entre com o valor da impedância 1 (forma polar)\n<b> Entre com o valor da impedância 2 (forma polar)\n<c> Apresentar impedância equivalente\n<r> Para retornar ao menu principal\n");
+                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM PARALELO\nDigite:\n<a> Entre com o valor da impedância 1 (forma retângular)\n<b> Entre com o valor da impedância 2 (forma retângular)\n<c> Apresentar impedância equivalente\n<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
                 case 'A': // Solicita o valor da impedância 1
-                   /* printf("Informe o valor da impedância Z1\n->Módulo: ");
-                    while(scanf("%f", &z_mod_temp) != 1)
+                    printf("Informe o valor da impedância Z1\n->Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
                     {
                         fflush(stdin);
-                        printf("\nInforme um valor correto para o módulo: ");
+                        printf("\nInforme um valor válido: ");
                     }
-                    printf("->Ângulo (em graus): ");
-                    while(scanf("%f", &z_ang_temp) != 1)
+                    printf("->Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
                     {
                         fflush(stdin);
-                        printf("\nInforme um valor correto para o ângulo: ");
-                    }*/
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z1 = real_temp + imag_temp * I;         // Monta a impedância Z1
                     break;
 
                 case 'B': // Solicita o valor da impedância 2
-                /*    printf("Informe o valor da impedância Z2\n->Módulo: ");
-                    while(scanf("%f", &z_mod_2) != 1)
+                    printf("Informe o valor da impedância Z2\n->Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
                     {
                         fflush(stdin);
-                        printf("Informe um valor correto para o módulo");
+                        printf("Informe um valor válido: ");
                     }
-                    printf("->Ângulo (em graus): ");
-                    while(scanf("%f", &z_ang_2) != 1)
+                    printf("->Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
                     {
                         fflush(stdin);
-                        printf("\nInforme um valor correto para o ângulo: ");
-                    }*/
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z2 = real_temp + imag_temp * I;         // Monta a impedância Z2
                     break;
 
                 case 'C': // Apresenta o resultado equivalente
-                 /*   z.ang_1 = z.ang_1*PI/180;           // Converte graus para radianos
-                    z.ang_2 = z.ang_2*PI/180;           // Converte graus para radianos
-                    z.real_1 = z.mod_1*cos(z.ang_1);    // Obtem a parte real de Z1
-                    z.imag_1 = z.mod_1*sin(z.ang_1);    // Obtem a parte imaginária de Z1
-                    z.real_2 = z.mod_2*cos(z.ang_2);    // Obtem a parte real de Z2
-                    z.imag_2 = z.mod_2*sin(z.ang_2);    // Obtem a parte imaginária de Z2
-
-                    z.mod_1 = (z.mod_1*z.mod_2)/(sqrt(pow((z.real_1+z.real_2),2)+pow((z.imag_1+z.imag_2),2)));   // Divide os módulos
-                    z.ang_temp = atan((z.real_1*z.real_2)/(z.imag_1*z.imag_2));    // Obtem o angulo da impedância
-                    z.ang_1 = ((z.ang_1+z.ang_2)-z.ang_temp)*180/PI;               // Obtem o angulo resultante
-
-                    printf("\nA impedância equivalente vale\n\tZeq = %g|_%-g \n", z.mod_1, z.ang_1);*/
+                    printf("\nA impedancia equivalente vale %g %+gi Ohms\n", creal((z1*z2)/(z1+z2)), cimag((z1*z2)/(z1+z2)));
                     system("pause");
                     break;
 
@@ -230,41 +216,39 @@ int main()
                 {
                 case 'A':
                     printf("\n\nConversão de forma polar para retangular\nInforme o módulo da impedância: ");
-                    while(scanf("%f", &z_mod_temp) != 1)
+                    while(scanf("%f", &mod_temp) != 1)
                     {
                         printf("\nInforme um valor válido para o módulo da impedância: ");
                         fflush(stdin);
                     }
                     printf("Informe o valor do ângulo da impedância (em graus): ");
-                    while(scanf("%f", &z_ang_temp) != 1)
+                    while(scanf("%f", &ang_temp) != 1)
                     {
                         printf("\nInforme um valor válido para o ângulo da impedância: ");
                         fflush(stdin);
                     }
-                    z_ang_temp = z_ang_temp*PI/180;              // Converte graus para radianos
-                    z_real_temp = z_mod_temp*cos(z_ang_temp);    // Obtem a parte real
-                    z_imag_temp = z_mod_temp*sin(z_ang_temp);    // Obtem a parte imaginária
+                    ang_temp = ang_temp*PI/180;              // Converte graus para radianos
+                    real_temp = mod_temp*cos(ang_temp);    // Obtem a parte real
+                    imag_temp = mod_temp*sin(ang_temp);    // Obtem a parte imaginária
 
-                    printf("\nA impedância vale %.3f %+.3fi na forma retangular.\n", z_real_temp, z_imag_temp);
+                    printf("\nA impedância vale %.3f %+.3fi na forma retangular.\n", real_temp, imag_temp);
                     system("pause");
                     break;
                 case 'B':
                     printf("\n\nConversão de forma retangular para polar\nInforme a parte real da impedância e confirme com enter: ");
-                    while(scanf("%f", &z_real_temp) != 1)
+                    while(scanf("%f", &real_temp) != 1)
                     {
                         printf("\nInforme um valor válido para a parte real da impedância: ");
                         fflush(stdin);
                     }
                     printf("Informe o valor da parte imaginária da impedância e confirme com enter: ");
-                    while(scanf("%f", &z_imag_temp) != 1)
+                    while(scanf("%f", &imag_temp) != 1)
                     {
                         printf("\nInforme um valor válido para a parte imaginária da impedância: ");
                         fflush(stdin);
                     }
-                    z_mod_temp = sqrt(pow(z_real_temp,2)+pow(z_imag_temp,2));    // Obtem o módulo da impedância
-                    z_ang_temp = atan(z_real_temp/z_imag_temp);                  // Obtem o angulo da impedância
-                    z_ang_temp = z_ang_temp*180/PI;                           // Converte para graus
-                    printf("\nA impedancia na forma polar vale Z=%.3f|_%-.3f\n", z_mod_temp, z_ang_temp);
+                    z1 = real_temp + imag_temp * I;
+                    printf("\nA impedancia na forma polar vale \n\tZ = %.3f|_%-.3f\n", cabs(z1), catan(z1));
                     system("pause");    // Aguarda o usuário pressionar alguma tecla para voltar ao submenu
                     break;
 
@@ -280,7 +264,7 @@ int main()
             while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
             break; /** Fim do submenu de conversão de impedâncias */
 
-        case 'E':   /** Divisor de Tensão (FINALIZAR) */
+        case 'E':   /** Divisor de Tensão */
             do
             {
                 system("cls");
@@ -288,6 +272,57 @@ int main()
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
+                case 'A':
+                    printf("Informe o valor da fonte na forma polar\n->Módulo: ");
+                    while(scanf("%f", &mod_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("->Ângulo: ");
+                    while(scanf("%f", &ang_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    ang_temp = (ang_temp*PI)/180;   // Converte para radianos
+                    v = mod_temp*cos(ang_temp) + (mod_temp*sin(ang_temp))*I;    // Passa o valor da fonte para retangular
+                    break;
+                case 'B':
+                    printf("Informe o valor da impedância Z1 na forma retangular\n-> Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("-> Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z1 = real_temp + imag_temp*I;
+                    printf("Informe o valor da impedância Z2 na forma retangular\n-> Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("-> Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z2 = real_temp + imag_temp*I;
+                    break;
+
+                case 'C':
+                    VZ1 = (z1/(z1+z2))*v;   // Calcula a tensão sobre Z1
+                    VZ2 = (z2/(z1+z2))*v;   // Calcula a tensão sobre Z2
+                    printf("\nA queda de tensão nas impedâncias vale\n\tVZ1 = %g %-gi\n\tVZ2 = %g %-gi\n", creal(VZ1), cimag(VZ1), creal(VZ2), cimag(VZ2));
+                    system("pause");
+                    break;
 
                 default:
                     if(user_sub_selection != 'R')
@@ -302,14 +337,66 @@ int main()
             while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
             break;  /** Fim do submenu de divisor de tensão */
 
-        case 'F':   /** Divisor de corrente (FINALIZAR) */
+        case 'F':   /** Divisor de corrente */
             do
             {
                 system("cls");
-                printf("DIVISOR DE CORRENTE\nDigite:\n<r> Para retornar ao menu principal");
+                printf("DIVISOR DE CORRENTE\nDigite:\n<a> Para definir o valor da corrente\n<b> Para definir o valor das impedâncias\n<c> Para apresentar o resultado\n<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
+                case 'A':
+                    printf("Informe o valor da corrente na forma polar\n-> Módulo: ");
+                    while(scanf("%f", &mod_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("-> Ângulo: ");
+                    while(scanf("%f", &ang_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    ang_temp = (ang_temp*PI)/180;   // Converte para radianos
+                    i = mod_temp*cos(ang_temp) + (mod_temp*sin(ang_temp))*I;    // Passa o valor da fonte para retangular
+                    break;
+
+                case 'B':
+                    printf("Informe o valor da impedância Z1 na forma retangular\n-> Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("-> Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z1 = real_temp + imag_temp*I;
+                    printf("Informe o valor da impedância Z2 na forma retangular\n-> Parte real: ");
+                    while(scanf("%f", &real_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    printf("-> Parte imaginária: ");
+                    while(scanf("%f", &imag_temp) != 1)
+                    {
+                        fflush(stdin);
+                        printf("\nInforme um valor válido: ");
+                    }
+                    z2 = real_temp + imag_temp*I;
+                    break;
+
+                case 'C':
+                    iZ1 = (z2/(z1+z2))*i;
+                    iZ2 = (z1/(z1+z2))*i;
+                    printf("\nA corrente em cada impedância vale\n\tiZ1 = %g %-gi A\n\tiZ2 = %g %-gi A", creal(iZ1), cimag(iZ1), creal(iZ2), cimag(iZ2));
+                    system("pause");
+                    break;
                 default:
                     if(user_sub_selection != 'R')
                     {
