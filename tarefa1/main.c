@@ -1,8 +1,9 @@
 /**
- * @brief  Calculadora básica de corrente alternada
- *
- * @author Guilherme Camargo Valese
- * @date   02/05/2019
+ * IFSC Câmpus Florianópolis
+ * Programação de Computadores 1 (Eng. Eletrônica)
+ * Tarefa 1 - Calculadora básica de corrente alternada
+ * Professor: Marco Villaça
+ * Aluno: Guilherme Camargo Valese
  */
 #include <complex.h>
 #include <conio.h>
@@ -17,15 +18,23 @@
 int main()
 {
     setlocale(LC_CTYPE, "portuguese");
-    char user_selection, user_sub_selection;                    // Variáveis de controle do menu e submenu
-    float C, L, freq;                                           // Variáveis utilizadas para a opção 'c' (cálculo de reatâncias)
-    float mod_temp, ang_temp, real_temp, imag_temp;             // Variáveis temporárias
-    double complex z1,z2,v,i,VZ1,VZ2,iZ1,iZ2;
+    char user_selection, user_sub_selection;             // Variáveis de controle do menu e submenu
+    float C, L, freq;                                    // Variáveis utilizadas para a opção 'c' (cálculo de reatâncias)
+    float mod_temp, ang_temp, real_temp, imag_temp;      // Variáveis temporárias
+    double complex z1,z2,v,i,vout,iout;
 
     while(1)
     {
-        system("cls");
-        printf("     MENU PRINCIPAL\nDigite:\n<a> Associação de impedâncias em Série\n<b> Associação de impedâncias em Paralelo\n<c> Cálculo de reatâncias\n<d> Conversor de impedâncias P->R e R->P\n<e> Divisor de tensão\n<f> Divisor de corrente\n<s> Sair\n");
+        system("cls");  // Limpa a tela
+        printf("------------- MENU PRINCIPAL -------------\n"
+               "Digite e letra correspondente:\n"
+               "<a> Associação de impedâncias em Série\n"
+               "<b> Associação de impedâncias em Paralelo\n"
+               "<c> Cálculo de reatâncias\n"
+               "<d> Conversor de impedâncias P->R e R->P\n"
+               "<e> Divisor de tensão\n"
+               "<f> Divisor de corrente\n"
+               "<s> Sair\n");   // Exibe o menu principal
         fflush(stdin);
         user_selection = toupper(getch());  // passa para letra maiúscula o que for digitado
         switch (user_selection)
@@ -34,7 +43,12 @@ int main()
             do
             {
                 system("cls");
-                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM SÉRIE\nDigite:\n<a> Entre com o valor da impedância 1 (forma retangular)\n<b> Entre com o valor da impedância 2 (forma retangular)\n<c> Apresentar impedância equivalente\n<r> Para retornar ao menu principal\n");
+                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM SÉRIE\n"
+                       "Digite:\n"
+                       "<a> Entre com o valor da impedância 1 (forma retangular)\n"
+                       "<b> Entre com o valor da impedância 2 (forma retangular)\n"
+                       "<c> Apresentar impedância equivalente\n"
+                       "<r> Para retornar ao menu principal\n");
                 fflush(stdin);
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
@@ -52,7 +66,7 @@ int main()
                         printf("\nInforme um valor válido!\nX: ");
                         fflush(stdin);
                     }
-                    z1 = real_temp + imag_temp * I;
+                    z1 = real_temp + imag_temp * I;     // Forma a impedância Z1
                     break;
 
                 case 'B': // Solicita o valor da impedancia 2
@@ -68,7 +82,7 @@ int main()
                         printf("\nInforme um valor válido!\nX: ");
                         fflush(stdin);
                     }
-                    z2 = real_temp + imag_temp * I;
+                    z2 = real_temp + imag_temp * I;     // Forma a impedância Z2
                     break;
 
                 case 'C': // Apresenta o valor da impedancia equivalente
@@ -76,9 +90,6 @@ int main()
                     system("pause");
                     break;
 
-                case 'R':
-                    continue;
-                    break;
                 default:
                     if(user_sub_selection != 'R')
                     {
@@ -96,7 +107,12 @@ int main()
             {
                 fflush(stdin);
                 system("cls");
-                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM PARALELO\nDigite:\n<a> Entre com o valor da impedância 1 (forma retângular)\n<b> Entre com o valor da impedância 2 (forma retângular)\n<c> Apresentar impedância equivalente\n<r> Para retornar ao menu principal\n");
+                printf("ASSOCIAÇÃO DE IMPEDÂNCIAS EM PARALELO\n"
+                       "Digite:\n"
+                       "<a> Entre com o valor da impedância 1 (forma retângular)\n"
+                       "<b> Entre com o valor da impedância 2 (forma retângular)\n"
+                       "<c> Apresentar impedância equivalente\n"
+                       "<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
@@ -113,7 +129,7 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor válido: ");
                     }
-                    z1 = real_temp + imag_temp * I;         // Monta a impedância Z1
+                    z1 = real_temp + imag_temp * I;     // Forma a impedância Z1
                     break;
 
                 case 'B': // Solicita o valor da impedância 2
@@ -129,7 +145,7 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor válido: ");
                     }
-                    z2 = real_temp + imag_temp * I;         // Monta a impedância Z2
+                    z2 = real_temp + imag_temp * I;     // Forma a impedância Z2
                     break;
 
                 case 'C': // Apresenta o resultado equivalente
@@ -154,7 +170,11 @@ int main()
             {
                 fflush(stdin);
                 system("cls");
-                printf("CÁLCULO DE REATÂNCIAS\nDigite:\n<a> Para calcular a reatância capacitiva\n<b> Para calcular a reatância indutiva\n<r> Para retornar ao menu principal\n");
+                printf("CÁLCULO DE REATÂNCIAS\n"
+                       "Digite:\n"
+                       "<a> Para calcular a reatância capacitiva\n"
+                       "<b> Para calcular a reatância indutiva\n"
+                       "<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
@@ -172,7 +192,7 @@ int main()
                         fflush(stdin);
                         printf("\nInforme um valor correto para a capacitância.\nC=");
                     }
-                    printf("\nReatância capacitiva\n\t Xc= %.6fi Ohms \n\n", 1/(2*PI*freq*C));
+                    printf("\nReatância capacitiva\n\t Xc = %gi Ohms \n\n", 1/(2*PI*freq*C));
                     system("pause");
                     break;   // Fim do cálculo da reatância capacitiva
 
@@ -190,7 +210,7 @@ int main()
                         fflush(stdin);
                         printf("Informe um valor correto para a indutância.\nL=");
                     }
-                    printf("\nReatância Indutiva\n\tXl=%.3fi Ohms \n\n", (2*PI*freq*L));
+                    printf("\nReatância Indutiva\n\tXl = %gi Ohms \n\n", (2*PI*freq*L));
                     system("pause");
                     break; // Fim do cálculo da reatância indutiva
 
@@ -210,7 +230,10 @@ int main()
             do
             {
                 system("cls");
-                printf("CONVERSÃO DE IMPEDÂNCIAS\nDigite:\n<a> Conversão polar -> retangular\n<b> Conversão retangular -> polar\n<r> Para retornar ao menu principal\n");
+                printf("CONVERSÃO DE IMPEDÂNCIAS\n"
+                       "Digite:\n<a> Conversão polar -> retangular\n"
+                       "<b> Conversão retangular -> polar\n"
+                       "<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
@@ -231,9 +254,10 @@ int main()
                     real_temp = mod_temp*cos(ang_temp);    // Obtem a parte real
                     imag_temp = mod_temp*sin(ang_temp);    // Obtem a parte imaginária
 
-                    printf("\nA impedância vale %.3f %+.3fi na forma retangular.\n", real_temp, imag_temp);
+                    printf("\nA impedância vale %.3f %+.3fi Ohms na forma retangular.\n", real_temp, imag_temp);
                     system("pause");
                     break;
+
                 case 'B':
                     printf("\n\nConversão de forma retangular para polar\nInforme a parte real da impedância e confirme com enter: ");
                     while(scanf("%f", &real_temp) != 1)
@@ -247,9 +271,12 @@ int main()
                         printf("\nInforme um valor válido para a parte imaginária da impedância: ");
                         fflush(stdin);
                     }
-                    z1 = real_temp + imag_temp * I;
-                    printf("\nA impedancia na forma polar vale \n\tZ = %.3f|_%-.3f\n", cabs(z1), catan(z1));
+                    mod_temp = sqrt((real_temp*real_temp)+(imag_temp*imag_temp));   // Obtem o módulo da impedância
+                    ang_temp = atan(imag_temp/real_temp)*(180/PI);                  // Obtem o argumento da impedância
+                    printf("\nA impedancia na forma polar vale \n\tZ = %g|_%-g\n", mod_temp, ang_temp);
                     system("pause");    // Aguarda o usuário pressionar alguma tecla para voltar ao submenu
+                    break;
+                case 'R':
                     break;
 
                 default:
@@ -268,7 +295,12 @@ int main()
             do
             {
                 system("cls");
-                printf("DIVISOR DE TENSÃO\nDigite:\n<a> Para definir a tensão da fonte\n<b> Para definir o valor das impedâncias Z1 e Z2\n<c> Para apresentar o resultado\n<r> Para retornar ao menu principal\n");
+                printf("DIVISOR DE TENSÃO\n"
+                       "Digite:\n"
+                       "<a> Para definir a tensão da fonte\n"
+                       "<b> Para definir o valor das impedâncias Z1 e Z2\n"
+                       "<c> Para apresentar o resultado\n"
+                       "<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
@@ -288,6 +320,7 @@ int main()
                     ang_temp = (ang_temp*PI)/180;   // Converte para radianos
                     v = mod_temp*cos(ang_temp) + (mod_temp*sin(ang_temp))*I;    // Passa o valor da fonte para retangular
                     break;
+
                 case 'B':
                     printf("Informe o valor da impedância Z1 na forma retangular\n-> Parte real: ");
                     while(scanf("%f", &real_temp) != 1)
@@ -318,9 +351,10 @@ int main()
                     break;
 
                 case 'C':
-                    VZ1 = (z1/(z1+z2))*v;   // Calcula a tensão sobre Z1
-                    VZ2 = (z2/(z1+z2))*v;   // Calcula a tensão sobre Z2
-                    printf("\nA queda de tensão nas impedâncias vale\n\tVZ1 = %g %-gi\n\tVZ2 = %g %-gi\n", creal(VZ1), cimag(VZ1), creal(VZ2), cimag(VZ2));
+                    vout = (z1/(z1+z2))*v;   // Calcula a tensão sobre Z1
+                    printf("\nA queda de tensão nas impedâncias vale\n\tVZ1 = %g %+gi V", creal(vout), cimag(vout));
+                    vout = (z2/(z1+z2))*v;   // Calcula a tensão sobre Z2
+                    printf("\n\tVZ2 = %g %+gi", creal(vout), cimag(vout));
                     system("pause");
                     break;
 
@@ -332,7 +366,6 @@ int main()
                     }
                     break;
                 }
-
             }
             while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
             break;  /** Fim do submenu de divisor de tensão */
@@ -341,7 +374,11 @@ int main()
             do
             {
                 system("cls");
-                printf("DIVISOR DE CORRENTE\nDigite:\n<a> Para definir o valor da corrente\n<b> Para definir o valor das impedâncias\n<c> Para apresentar o resultado\n<r> Para retornar ao menu principal\n");
+                printf("DIVISOR DE CORRENTE\nDigite:\n"
+                       "<a> Para definir o valor da corrente\n"
+                       "<b> Para definir o valor das impedâncias\n"
+                       "<c> Para apresentar o resultado\n"
+                       "<r> Para retornar ao menu principal\n");
                 user_sub_selection = toupper(getch());
                 switch (user_sub_selection)
                 {
@@ -392,11 +429,13 @@ int main()
                     break;
 
                 case 'C':
-                    iZ1 = (z2/(z1+z2))*i;
-                    iZ2 = (z1/(z1+z2))*i;
-                    printf("\nA corrente em cada impedância vale\n\tiZ1 = %g %-gi A\n\tiZ2 = %g %-gi A", creal(iZ1), cimag(iZ1), creal(iZ2), cimag(iZ2));
+                    iout = (z2/(z1+z2))*i;  // Calcula a corrente que circula por Z1
+                    printf("\nA corrente em cada impedância vale\n\tiZ1 = %g %+gi A", creal(iout), cimag(iout));
+                    iout = (z1/(z1+z2))*i;  // Calcula a corrente que circula por Z2
+                    printf("\n\tiZ2 = %g %+gi A\n");
                     system("pause");
                     break;
+
                 default:
                     if(user_sub_selection != 'R')
                     {
@@ -409,13 +448,13 @@ int main()
             while(user_sub_selection != 'R'); // Se o usuário digitar 'R' volta ao menu principal
             break;  /** Fim do submenu de divisor de corrente */
 
-        case 'S':   // Encerra a execução do programa se o usuário digitar 'R'
+        case 'S':   // Encerra a execução do programa se o usuário digitar 'S'
             return 0;
             break;
 
         default:    // Se o usuário digitar algo diferente do especificado, informa que esta opção é inválida
             printf("Opção inválida, tente novamente.\n");
-            Sleep(500);    // Aguarda 500 ms
+            Sleep(500);    // Aguarda 500 ms e retorna para o início do laço
             break;
         }
     }

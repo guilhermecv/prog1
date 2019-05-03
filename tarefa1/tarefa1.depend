@@ -8,7 +8,8 @@
 	<stdio.h>
 	<stdlib.h>
 
-1556798105 source:c:\users\guilh\desktop\prog1\tarefa1\main.c
+1556899202 source:c:\users\guilh\desktop\prog1\tarefa1\main.c
+	<complex.h>
 	<conio.h>
 	<ctype.h>
 	<locale.h>
