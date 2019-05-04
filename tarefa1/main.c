@@ -354,8 +354,7 @@ int main()
                     vout = (z1/(z1+z2))*v;   // Calcula a tensão sobre Z1
                     printf("\nA queda de tensão nas impedâncias vale\n\tVZ1 = %g %+gi V", creal(vout), cimag(vout));
                     vout = (z2/(z1+z2))*v;   // Calcula a tensão sobre Z2
-                    printf("\n\tVZ2 = %g %+gi V\n
-                           ", creal(vout), cimag(vout));
+                    printf("\n\tVZ2 = %g %+gi V\n", creal(vout), cimag(vout));
                            system("pause");
                            break;
 
