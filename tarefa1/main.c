@@ -432,7 +432,7 @@ int main()
                     iout = (z2/(z1+z2))*i;  // Calcula a corrente que circula por Z1
                     printf("\nA corrente em cada impedância vale\n\tiZ1 = %g %+gi A", creal(iout), cimag(iout));
                     iout = (z1/(z1+z2))*i;  // Calcula a corrente que circula por Z2
-                    printf("\n\tiZ2 = %g %+gi A\n");
+                    printf("\n\tiZ2 = %g %+gi A\n", creal(iout), cimag(iout));
                     system("pause");
                     break;
 
