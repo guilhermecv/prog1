@@ -47,11 +47,11 @@ int main()
     time(&rawtime);
     timeinfo = localtime (&rawtime);
 
+
+    /** Teste com a data */
     char sys_date[30];
     char sys_date_temp[5];
     char validade[] = "10/08/2019";
-
-    /** Teste com a data */
     if(timeinfo->tm_mday < 10)
         strcat(sys_date, "0");
     itoa(timeinfo->tm_mday, sys_date_temp, 10);
@@ -64,10 +64,10 @@ int main()
     strcat(sys_date, "/");
     itoa(timeinfo->tm_year+1900, sys_date_temp, 10);
     strcat(sys_date, sys_date_temp);
-
     printf(" %d", strcmp(sys_date, validade));
     printf("Data: %s", sys_date);
     system("pause");
+
 
     while(1)
     {
@@ -80,9 +80,9 @@ int main()
             printf("0%d", timeinfo->tm_mon+1);
         else
             printf("%d", timeinfo->tm_mon+1);
-        printf("/%d\n", timeinfo->tm_year+1900);
+        printf("/%d", timeinfo->tm_year+1900);
 
-       // printf ("%s", asctime(timeinfo));
+        // printf ("%s", asctime(timeinfo));
         printf("\nDigite:\n<1> Listar as cervejas em estoque\n<2> Cadastrar novo produto\n<3> Interromper a venda de um produto\n<4> Alterar um item no estoque\n<5> Verificar vencimento proximo\n<S> Para sair do programa\n");
         user_sel = toupper(getch());
         switch (user_sel)
@@ -121,7 +121,7 @@ int main()
 }
 
 /**
- * @brief Apaga todas as posições não utilizadas
+ * @brief Apaga as posições não utilizadas
  */
 void clear_memory(struct cadastro *bar_ptr)
 {
@@ -140,7 +140,10 @@ int position_free(struct cadastro *bar_ptr)
     int pos = 0;
     while((bar_ptr+pos)->cervejaria[0] != '\0')
         pos++;
-    return pos;
+    if(pos == MAX_VALUE)
+        return -1;
+    else
+        return pos;
 }
 
 /**
@@ -175,23 +178,41 @@ void new_product(struct cadastro *bar_ptr)
     while(1)
     {
         int pos = position_free(bar_ptr);
-        fflush(stdin);
-        printf("Digite o nome da cervejaria: ");
-        gets((bar_ptr+pos)->cervejaria);
-        printf("Digite o nome da cerveja: ");
-        gets((bar_ptr+pos)->nome);
-        printf("Informe a validade (dd/mm/aaaa): ");
-        gets((bar_ptr+pos)->validade);
-        printf("Informe o valor do produto: ");
-        scanf("%f", &temp_value);
-        (bar_ptr+pos)->valor = temp_value;
-        printf("Informe a quantidade em estoque: ");
-        scanf("%d", &temp_qtd);
-        (bar_ptr+pos)->qtd = temp_qtd;
-        printf("\nDigite 'S' para realizar um novo cadastro.");
-        user_sel = toupper(getch());
-        if(user_sel != 'S')
+        if(pos == -1)
+        {
+            printf("\nNão existem posições disponíveis para cadastro\n");
+            system("pause");
             break;
+        }
+        else
+        {
+
+            fflush(stdin);
+            printf("Digite o nome da cervejaria: ");
+            gets((bar_ptr+pos)->cervejaria);
+            printf("Digite o nome da cerveja: ");
+            gets((bar_ptr+pos)->nome);
+            printf("Informe a validade (dd/mm/aaaa): ");
+            gets((bar_ptr+pos)->validade);
+            printf("Informe o valor do produto: ");
+            while(scanf("%f", &temp_value) != 1 || temp_value < 0)
+            {
+                fflush(stdin);
+                printf("\nInforme um valor válido para o produto: ");
+            }
+            (bar_ptr+pos)->valor = temp_value;
+            printf("Informe a quantidade em estoque: ");
+            while(scanf("%d", &temp_qtd) != 1 || temp_qtd < 0)
+            {
+                fflush(stdin);
+                printf("\nInforme uma quantidade válida: ");
+            }
+            (bar_ptr+pos)->qtd = temp_qtd;
+            printf("\nDigite 'S' para realizar um novo cadastro.");
+            user_sel = toupper(getch());
+            if(user_sel != 'S')
+                break;
+        }
     }
 }
 
@@ -200,25 +221,17 @@ void new_product(struct cadastro *bar_ptr)
  */
 void del_product(struct cadastro *bar_ptr)
 {
-    int del_position = 0;
+    int del_position;
     list_memory(bar_ptr);
-    printf("\nInforme o ID do produto que deseja excluir: ");
-    while(scanf("%d", &del_position) != 1)
+    printf("\nDigite o ID do produto que deseja excluir: ");
+    while(scanf("%d", &del_position) != 1 || (del_position<0 || del_position > MAX_VALUE))
     {
         fflush(stdin);
-        printf("\nInforme um ID válido.");
+        printf("\nInforme um ID válido: ");
     }
-    if(del_position >= MAX_VALUE)
-    {
-        printf("\nID não encontrado, tente novamente: ");
-        system("pause");
-    }
-    else
-    {
-        (bar_ptr+del_position)->cervejaria[0] = '\0';
-        printf("Produto deletado!\n");
-        system("pause");
-    }
+    (bar_ptr+del_position)->cervejaria[0] = '\0';
+    printf("Produto deletado!\n");
+    system("pause");
 }
 
 /**
@@ -246,7 +259,7 @@ void change_product(struct cadastro *bar_ptr)
     do
     {
         system("cls");
-        printf("\nALTERAÇÃO DE CADASTRO\nDigite:\n<1> Para alterar o valor\n<2> Para alterar a quantidade em estoque\n<S> Para retornar ao menu principal");
+        printf("\nALTERAÇÃO DE CADASTRO\nDigite:\n<1> Para alterar o valor\n<2> Para alterar a quantidade em estoque\n<R> Para retornar ao menu principal");
         user_sel = toupper(getch());
         switch (user_sel)
         {
@@ -254,19 +267,17 @@ void change_product(struct cadastro *bar_ptr)
             system("cls");
             list_memory(bar_ptr);
             printf("\nAlteração de valor, digite o ID do produto:");
-            while(scanf("%d", &pos) != 1)
+            while(scanf("%d", &pos) != 1 || (pos<0 || pos > MAX_VALUE))
             {
                 fflush(stdin);
-                printf("\nInforme um ID válido:");
-            }
-            while(pos >= MAX_VALUE)
-            {
-                fflush(stdin);
-                printf("\nID não encontrado, tente novamente: ");
-                scanf("%d", &pos);
+                printf("\nInforme um ID válido: ");
             }
             printf("Informe o novo valor: ");
-            scanf("%f", &temp_value);
+            while(scanf("%f", &temp_value) != 1 || temp_value < 0)
+            {
+                fflush(stdin);
+                printf("Digite um valor correto para o produto: ");
+            }
             printf("Digite 'S' para confirmar alteração no valor de %.2f para %.2f", bar_ptr[pos].valor, temp_value);
             user_sub_sel = toupper(getch());
             if(user_sub_sel == 'S')
@@ -280,27 +291,34 @@ void change_product(struct cadastro *bar_ptr)
                 printf("\nOperação cancelada pelo usuário.\n");
                 system("pause");
             }
-
             break;
 
         case '2':   // Altera a quantidade em estoque
             system("cls");
             list_memory(bar_ptr);
             printf("\nAlteração de estoque, digite o ID do produto:");
-            scanf("%d", &pos);
+            while(scanf("%d", &pos) != 1 || (pos<0 || pos > MAX_VALUE))
+            {
+                fflush(stdin);
+                printf("\nInforme um ID válido: ");
+            }
             printf("Informe a nova quantidade: ");
-            scanf("%d", &temp_qtd);
+            while((scanf("%d", &temp_qtd) != 1) || temp_qtd < 0)
+            {
+                fflush(stdin);
+                printf("\nInforme um quantidade válida: ");
+            }
             (bar_ptr+pos)->qtd = temp_qtd;
             break;
 
         default:
-            if(user_sel != 'S')
+            if(user_sel != 'R')
             {
-                printf("\nOpção inválida.");
+                printf("\nOpção inválida.\n");
                 system("pause");
             }
             break;
         }
     }
-    while(user_sel != 'S');
+    while(user_sel != 'R');
 }
