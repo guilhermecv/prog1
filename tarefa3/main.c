@@ -1,7 +1,7 @@
 /**
- *	ProgramaÁ„o de Computadores 1
+ *	Programa√ß√£o de Computadores 1
  *	Tarefa 3 - Controle de estoque
- *  Professor: Marco ValÈrio Miorim VillaÁa
+ *  Professor: Marco Val√©rio Miorim Villa√ßa
  *	Aluno: Guilherme Camargo Valese
  */
 #include <stdio.h>
@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include <locale.h>
 
-#define MAX_VALUE   100         // Limite de posiÁıes reservadas para cadastro
+#define MAX_VALUE   100         // Limite de posi√ß√µes reservadas para cadastro
 
 struct cadastro
 {
@@ -34,7 +34,7 @@ void display_time();
 int main()
 {
     setlocale(LC_CTYPE, "portuguese");
-    char user_sel; // Vari·vel de controle
+    char user_sel; // Vari√°vel de controle
     struct cadastro bar[MAX_VALUE];
     clear_memory(bar);
     const char ARQUIVO[] = "cervejas.dat";
@@ -67,25 +67,25 @@ int main()
             del_product(bar);
             break;
 
-        case '4':   // Alterar informaÁıes do produto
+        case '4':   // Alterar informa√ß√µes do produto
             change_product(bar);
             break;
 
-        case '5':   // Verificar vencimento prÛximo
+        case '5':   // Verificar vencimento pr√≥ximo
             verify_validity(bar);
             break;
 
         case 'S':   // Sair do programa
             printf("\nSalvando dados...\n\n");
             fclose(fp); // Fecha o arquivo aberto anteriormente
-            fopen(ARQUIVO, "wb");   // Abre o arquivo no modo leitura
+            fopen(ARQUIVO, "wb");   // Abre o arquivo no modo escrita
             fwrite(bar, sizeof(struct cadastro), MAX_VALUE, fp);
             fclose(fp);
             return 0;
             break;
 
         default:
-            printf("\nOpcao inv·lida\n");
+            printf("\nOpcao inv√°lida\n");
             system("pause");
             break;
         }
@@ -94,7 +94,7 @@ int main()
 }
 
 /**
- * @brief Apaga as posiÁıes n„o utilizadas
+ * @brief Apaga as posi√ß√µes n√£o utilizadas
  */
 void clear_memory(struct cadastro *bar_ptr)
 {
@@ -106,9 +106,9 @@ void clear_memory(struct cadastro *bar_ptr)
 }
 
 /**
- * @brief Encontra uma posiÁ„o n„o utilizada
- * @return -1 se n„o existir posiÁ„o livre
- * @return pos, Ìndice da posiÁ„o livre
+ * @brief Encontra uma posi√ß√£o n√£o utilizada
+ * @return -1 se n√£o existir posi√ß√£o livre
+ * @return pos, √≠ndice da posi√ß√£o livre
  */
 int position_free(struct cadastro *bar_ptr)
 {
@@ -143,7 +143,7 @@ void list_memory(struct cadastro *bar_ptr)
 }
 
 /**
- * @brief Cadastra um novo produto em uma posiÁ„o livre
+ * @brief Cadastra um novo produto em uma posi√ß√£o livre
  */
 void new_product(struct cadastro *bar_ptr)
 {
@@ -155,7 +155,7 @@ void new_product(struct cadastro *bar_ptr)
         pos = position_free(bar_ptr);
         if(pos == -1)
         {
-            printf("\nN„o existem posiÁıes disponÌveis para cadastro\n");
+            printf("\nN√£o existem posi√ß√µes dispon√≠veis para cadastro\n");
             system("pause");
             break;
         }
@@ -172,14 +172,14 @@ void new_product(struct cadastro *bar_ptr)
             while(scanf("%f", &temp_value) != 1 || temp_value < 0)
             {
                 fflush(stdin);
-                printf("\nInforme um valor v·lido para o produto: ");
+                printf("\nInforme um valor v√°lido para o produto: ");
             }
             (bar_ptr+pos)->valor = temp_value;
             printf("Informe a quantidade em estoque: ");
             while(scanf("%d", &temp_qtd) != 1 || temp_qtd < 0)
             {
                 fflush(stdin);
-                printf("\nInforme uma quantidade v·lida: ");
+                printf("\nInforme uma quantidade v√°lida: ");
             }
             (bar_ptr+pos)->qtd = temp_qtd;
             printf("\nDigite 'S' para realizar um novo cadastro.");
@@ -202,7 +202,7 @@ void del_product(struct cadastro *bar_ptr)
     while(scanf("%d", &del_position) != 1 || (del_position<0 || del_position > MAX_VALUE) || ((bar_ptr+del_position)->cervejaria[0] == '\0'))
     {
         fflush(stdin);
-        printf("\nInforme um ID v·lido: ");
+        printf("\nInforme um ID v√°lido: ");
     }
     (bar_ptr+del_position)->cervejaria[0] = '\0';
     printf("Produto deletado!\n");
@@ -220,7 +220,7 @@ void verify_validity(struct cadastro *bar_ptr)
     time_t rawtime;
     time(&rawtime);
     timeinfo = localtime (&rawtime);
-    printf("\nProdutos prÛximos ou fora do prazo de validade");
+    printf("\nProdutos pr√≥ximos ou fora do prazo de validade");
     for(i=0; i<=MAX_VALUE; i++)
     {
         sscanf((bar_ptr+i)->validade, "%d/%d/%d", &day_val, &mon_val, &year_val);
@@ -259,18 +259,18 @@ void change_product(struct cadastro *bar_ptr)
     do
     {
         system("cls");
-        printf("\nALTERA«√O DE CADASTRO\nDigite:\n<1> Para alterar o valor\n<2> Para alterar a quantidade em estoque\n<R> Para retornar ao menu principal");
+        printf("\nALTERA√á√ÉO DE CADASTRO\nDigite:\n<1> Para alterar o valor\n<2> Para alterar a quantidade em estoque\n<R> Para retornar ao menu principal");
         user_sel = toupper(getch());
         switch (user_sel)
         {
         case '1':   // Altera o valor de venda
             system("cls");
             list_memory(bar_ptr);
-            printf("\nAlteraÁ„o de valor, digite o ID do produto:");
+            printf("\nAltera√ß√£o de valor, digite o ID do produto:");
             while(scanf("%d", &pos) != 1 || (pos < 0 || pos > MAX_VALUE) || ((bar_ptr+pos)->cervejaria[0] == '\0'))
             {
                 fflush(stdin);
-                printf("\nInforme um ID v·lido: ");
+                printf("\nInforme um ID v√°lido: ");
             }
             printf("Informe o novo valor: ");
             while(scanf("%f", &temp_value) != 1 || temp_value < 0)
@@ -278,18 +278,18 @@ void change_product(struct cadastro *bar_ptr)
                 fflush(stdin);
                 printf("\nDigite um valor correto para o produto: ");
             }
-            printf("Digite 'S' para confirmar alteraÁ„o no valor de %.2f para %.2f ", bar_ptr[pos].valor, temp_value);
+            printf("Digite 'S' para confirmar altera√ß√£o no valor de %.2f para %.2f ", bar_ptr[pos].valor, temp_value);
             fflush(stdin);
             user_sub_sel = toupper(getchar());
             if(user_sub_sel == 'S')
             {
                 (bar_ptr+pos)->valor = temp_value;
-                printf("\nOperaÁ„o concluÌda.\n");
+                printf("\nOpera√ß√£o conclu√≠da.\n");
                 system("pause");
             }
             else
             {
-                printf("\nOperaÁ„o cancelada pelo usu·rio.\n");
+                printf("\nOpera√ß√£o cancelada pelo usu√°rio.\n");
                 system("pause");
             }
             break;
@@ -297,17 +297,17 @@ void change_product(struct cadastro *bar_ptr)
         case '2':   // Altera a quantidade em estoque
             system("cls");
             list_memory(bar_ptr);
-            printf("\nAlteraÁ„o de estoque, digite o ID do produto:");
+            printf("\nAltera√ß√£o de estoque, digite o ID do produto:");
             while(scanf("%d", &pos) != 1 || (pos<0 || pos > MAX_VALUE) || ((bar_ptr+pos)->cervejaria[0] == '\0'))
             {
                 fflush(stdin);
-                printf("\nInforme um ID v·lido: ");
+                printf("\nInforme um ID v√°lido: ");
             }
             printf("Informe a nova quantidade: ");
             while((scanf("%d", &temp_qtd) != 1) || temp_qtd < 0)
             {
                 fflush(stdin);
-                printf("\nInforme um quantidade v·lida: ");
+                printf("\nInforme um quantidade v√°lida: ");
             }
             (bar_ptr+pos)->qtd = temp_qtd;
             break;
@@ -315,7 +315,7 @@ void change_product(struct cadastro *bar_ptr)
         default:
             if(user_sel != 'R')
             {
-                printf("\nOpÁ„o inv·lida.\n");
+                printf("\nOp√ß√£o inv√°lida.\n");
                 system("pause");
             }
             break;
