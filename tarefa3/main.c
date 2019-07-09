@@ -1,6 +1,6 @@
 /**
  *	Programação de Computadores 1
- *	Tarefa 2 - Controle de estoque
+ *	Tarefa 3 - Controle de estoque
  *  Professor: Marco Valério Miorim Villaça
  *	Aluno: Guilherme Camargo Valese
  */
@@ -12,7 +12,6 @@
 #include <locale.h>
 
 #define MAX_VALUE   100         // Limite de posições reservadas para cadastro
-#define INITIAL_POSITION 5      // Corresponde a posição final do cadastro base
 
 struct cadastro
 {
@@ -36,13 +35,18 @@ int main()
 {
     setlocale(LC_CTYPE, "portuguese");
     char user_sel; // Variável de controle
-    struct cadastro bar[MAX_VALUE] = {{"Kairos","Boitata", "10/07/2019", 12.00, 80},
-        {"Wals","Tripel", "20/11/2019", 15.00, 50},
-        {"Seasons","Moosaic", "01/02/2020", 22.50, 70},
-        {"Brewdog","Punk Ipa", "19/07/2019", 21.00, 80},
-        {"Basecamp","IPL", "05/07/2020", 45.00, 40}
-    };
+    struct cadastro bar[MAX_VALUE];
     clear_memory(bar);
+    const char ARQUIVO[] = "cervejas.dat";
+    FILE *fp;
+    fp = fopen(ARQUIVO, "rb");
+    if(fp == NULL)
+    {
+        printf("Erro ao abrir o arquivo %s", ARQUIVO);
+        exit(EXIT_FAILURE);
+    }
+    fread(bar, sizeof(struct cadastro), MAX_VALUE, fp);
+
     while(1)
     {
         system("cls");
@@ -72,6 +76,11 @@ int main()
             break;
 
         case 'S':   // Sair do programa
+            printf("\nSalvando dados...\n\n");
+            fclose(fp); // Fecha o arquivo aberto anteriormente
+            fopen(ARQUIVO, "wb");   // Abre o arquivo no modo leitura
+            fwrite(bar, sizeof(struct cadastro), MAX_VALUE, fp);
+            fclose(fp);
             return 0;
             break;
 
@@ -90,7 +99,7 @@ int main()
 void clear_memory(struct cadastro *bar_ptr)
 {
     int i;
-    for (i=INITIAL_POSITION; i<=MAX_VALUE; i++)
+    for (i=0; i<=MAX_VALUE; i++)
     {
         (bar_ptr+i)->cervejaria[0] = '\0';
     }
@@ -98,6 +107,8 @@ void clear_memory(struct cadastro *bar_ptr)
 
 /**
  * @brief Encontra uma posição não utilizada
+ * @return -1 se não existir posição livre
+ * @return pos, índice da posição livre
  */
 int position_free(struct cadastro *bar_ptr)
 {
